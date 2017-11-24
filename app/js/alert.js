@@ -6,7 +6,6 @@ define("project/alert", function(require, exports, module) {
         Alert = function (data) {
             if(!data)
                 return;
-
             // 创建弹窗容器
             this.container = document.createElement('div');
 
@@ -30,11 +29,12 @@ define("project/alert", function(require, exports, module) {
                 this.container.appendChild(this.panel);
                 document.getElementsByTagName('body')[0].appendChild(this.container);
 
-                // 给遮罩层动态赋值样式
-                this.container.style = 'background:#000; position:absolute; opacity:0.4;top:0; left:0;'
+                // 给遮罩层动态赋值样式,固定定位
+                this.container.style = 'background:#000; position:fixed; opacity:0.4;top:0; left:0;'
                     +'width:'+this.getWindowWidth()+'px;'
                     +'height:'+this.getWindowHeight()+'px;';
 
+                console.log(this.getScrollTop())
             },
             // 获取窗口高度
             getWindowWidth : function () {
