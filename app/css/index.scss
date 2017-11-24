@@ -1,0 +1,53 @@
+@charset "utf-8";
+//引入初始化模块//引入初始化模块
+//顶头一定要记得加utf-8，不然会报错xE5错误
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/utilities";
+
+@import "../i/bgs/*.png";
+html{
+    @include bgs-sprite(banner_5);
+    background-size: 100% 100%;
+}
+
+@include keyframes(slide){
+    0%{
+        @include transform(skew(90deg));
+    }
+    100%{
+        @include transform(skew(90deg));
+    }
+}
+.opacity{
+    @include opacity(0.4);
+    @include border-radius(5px);
+}
+.clear{
+    @include clearfix;
+}
+
+
+.app{
+    overflow: hidden;
+    font: 14px Microsoft YaHei,tahoma,arial,Hiragino Sans GB,\\5b8b\4f53,sans-serif;
+    .nav{
+        height: 100px;
+        line-height: 100px;
+        background: #31a06e;
+        color: #fff;
+        font-size: 18px;
+    }
+    .com-contain{
+        width: 1200px;
+        margin: 0 auto;
+    }
+    .com-footer{
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+        background: #6e6e6e;
+        color: #fff;
+        font-size: 18px;
+    }
+}

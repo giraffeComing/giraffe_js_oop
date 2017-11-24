@@ -1,0 +1,11 @@
+.bgs-sprite, html { background-image: url('i/../i/bgs-s386dc1fc71.png'); background-repeat: no-repeat; }
+
+html { background-position: 0 -800px; background-size: 100% 100%; }
+
+@-moz-keyframes slide { 0% { -moz-transform: skew(90deg); transform: skew(90deg); }
+  100% { -moz-transform: skew(90deg); transform: skew(90deg); } }
+@-webkit-keyframes slide { 0% { -webkit-transform: skew(90deg); transform: skew(90deg); }
+  100% { -webkit-transform: skew(90deg); transform: skew(90deg); } }
+@keyframes slide { 0% { -moz-transform: skew(90deg); -ms-transform: skew(90deg); -webkit-transform: skew(90deg); transform: skew(90deg); }
+  100% { -moz-transform: skew(90deg); -ms-transform: skew(90deg); -webkit-transform: skew(90deg); transform: skew(90deg); } }
+.clear { overflow: hidden; *zoom: 1; }
