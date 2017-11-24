@@ -1,9 +1,8 @@
 /**
  * Created by zhangwei36 on 2017/10/10.
  */
-
-define("project/Alert", function(require, exports, module) {
-    module.exports = function jsFileOne() {
+define("project/alert", function(require, exports, module) {
+    module.exports = function alert() {
         Alert = function (data) {
             if(!data)
                 return;
@@ -32,7 +31,7 @@ define("project/Alert", function(require, exports, module) {
                 document.getElementsByTagName('body')[0].appendChild(this.container);
 
                 // 给遮罩层动态赋值样式
-                this.container.style = 'background:#000; position:absolute; top:0; left:0;'
+                this.container.style = 'background:#000; position:absolute; opacity:0.4;top:0; left:0;'
                     +'width:'+this.getWindowWidth()+'px;'
                     +'height:'+this.getWindowHeight()+'px;';
 

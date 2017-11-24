@@ -11,10 +11,10 @@ seajs.config({
 seajs.use([
         // PC端页头页脚布局
         'project/layout',
-        'project/Alert'
+        'project/alert'
     ],
-    function(Alert,layout) {
+    function(layout,alert) {
         // PC端页头页脚布局
         layout();
-        Alert();
+        alert();
     });
