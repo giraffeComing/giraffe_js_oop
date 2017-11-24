@@ -8,18 +8,17 @@ define("project/alert", function(require, exports, module) {
                 return;
             // 创建弹窗容器
             this.container = document.createElement('div');
-
             // 创建遮罩层和面板，并赋class
+            this.container.setAttribute('id','AlertComponent');
             this.mask = document.createElement('div');
-            this.mask.className = 'alert-mask';
             this.panel = document.createElement('div');
-            this.panel.className = 'alert-panel';
+            // 获取弹窗遮罩层的配置信息
+            this.maskStyle = data.maskOpts;
+            // 获取弹窗面板的配置信息
+            this.panelStyle = data.panelOpts;
 
-            // 获取窗口宽度
-            this.windowWidth = '';
-            // 获取窗口高度
-            this.windowHeight = '';
-
+            this.alertClose = document.createElement('div');
+            this.alertCloseStyle = data.closeOpts;
         };
 
         Alert.prototype = {
@@ -27,14 +26,41 @@ define("project/alert", function(require, exports, module) {
                 // 组装DOM结构
                 this.container.appendChild(this.mask);
                 this.container.appendChild(this.panel);
+                // 在面板中放入弹窗关闭按钮
+                this.panel.appendChild(this.alertClose);
                 document.getElementsByTagName('body')[0].appendChild(this.container);
 
-                // 给遮罩层动态赋值样式,固定定位
-                this.container.style = 'background:#000; position:fixed; opacity:0.4;top:0; left:0;'
-                    +'width:'+this.getWindowWidth()+'px;'
-                    +'height:'+this.getWindowHeight()+'px;';
+                // 配置项中的静态属性赋值
+                this.mask.style = this.splitStyle(this.maskStyle);
+                this.panel.style = this.splitStyle(this.panelStyle);
+                this.alertClose.style = this.splitStyle(this.alertCloseStyle);
+                // 动态属性赋值
+                this.setStyle();
+                // 事件绑定
+                this.bindEvent();
 
-                console.log(this.getScrollTop())
+            },
+            bindEvent : function () {
+                var This = this;
+                // 窗口改变重新计算面板位置
+                window.onresize = function () {
+                    This.setStyle();
+                }
+            },
+            // 动态属性设置方法
+            setStyle : function () {
+                this.mask.style.width = this.getWindowWidth()+'px';
+                this.mask.style.height = this.getWindowHeight()+'px';
+                this.panel.style.left = parseInt((this.getWindowWidth()- parseInt(this.panelStyle.width))/2) +'px';
+                this.panel.style.top = parseInt((this.getWindowHeight()- parseInt(this.panelStyle.height))/2) +'px';
+            },
+            // 样式配置项组装
+            splitStyle : function (opts) {
+                var str='';
+                for(var i in opts){
+                    str += i+':'+opts[i]+';'
+                }
+                return str;
             },
             // 获取窗口高度
             getWindowWidth : function () {
@@ -46,10 +72,31 @@ define("project/alert", function(require, exports, module) {
             }
         };
         var alert = new Alert({
-            // id : '',
-            width : 400,
-            height : 200,
+            maskOpts : {
+                background : '#000',
+                position : 'fixed',
+                opacity : '0.4',
+                top : '0',
+                left : '0'
+            },
+            panelOpts : {
+                position : 'fixed',
+                background : 'green',
+                width : '600px',
+                height : '400px'
+            },
+            closeOpts : {
+                position : 'absolute',
+                width : '50px',
+                height : '50px',
+                background : 'red',
+                right : '-25px',
+                top : '-25px'
+            },
+            titleOpts : {
+                content : '弹窗标题'
+            }
         });
         alert.init();
     }
-})
+});
