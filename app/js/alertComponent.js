@@ -36,7 +36,6 @@ define("project/alertComponent", function(require, exports, module) {
             this.confirmFun = data.confirmFun || function () {};
             this.cancelFun = data.cancelFun || function () {}
         };
-
         Alert.prototype = {
             init : function () {
                 // 组装DOM结构
@@ -203,5 +202,90 @@ define("project/alertComponent", function(require, exports, module) {
         });
         // 实例初始化
         alertObj.init();
+
+/**********************扩展项目弹窗的继承***************************/
+        var extendAlert = function (data) {
+            // 属性继承
+            Alert.call( this,data )
+        };
+        // 原型链下的方法继承
+        extendAlert.prototype = new Alert();
+        // 实例化扩展弹窗
+        var testAlert = new extendAlert({
+            maskOpts : {
+                'background' : '#000',
+                'position' : 'fixed',
+                'opacity' : '0.4',
+                'top' : '0',
+                'left' : '0'
+            },
+            panelOpts : {
+                'position' : 'fixed',
+                'background' : '#fff',
+                'width' : '600px',
+                'height' : '400px',
+                'border' : '5px solid gray'
+            },
+            closeOpts : {
+                'position' : 'absolute',
+                'width' : '40px',
+                'height' : '40px',
+                'background' : '#626262',
+                'right' : '-25px',
+                'top' : '-25px',
+                'border-radius' : '50px'
+            },
+            titleOpts : {
+                'titleStyle' : {
+                    'line-height' : '40px',
+                    'text-align' : 'center',
+                    'border-bottom' : '1px solid #000'
+                },
+                'content' : '弹窗标题'
+            },
+            confirmOpts : {
+                'confirmStyle' : {
+                    'position' : 'absolute',
+                    'right' : '120px',
+                    'bottom' : '20px',
+                    'background' : '#f22b47',
+                    'border' : 'none',
+                    'color' : '#fff',
+                    'width' : '80px',
+                    'height' : '30px'
+                },
+                'content' : '确定啦'
+            },
+            cancelOpts : {
+                'cancelStyle' : {
+                    'position' : 'absolute',
+                    'right' : '20px',
+                    'bottom' : '20px',
+                    'background' : 'gray',
+                    'border' : 'none',
+                    'color' : '#fff',
+                    'width' : '80px',
+                    'height' : '30px'
+                },
+                'content' : '取消啦'
+            },
+            closeFun : function () {
+                setTimeout(function () {
+                    alert('关闭成功之后的回调函数')
+                },500)
+            },
+            confirmFun : function () {
+                setTimeout(function () {
+                    alert('确定的回调函数')
+                },500)
+            },
+            cancelFun : function () {
+                setTimeout(function () {
+                    alert('取消了取消了')
+                },500)
+            }
+        });
+        // testAlert.init();
+/*******************************************************/
     }
 });
