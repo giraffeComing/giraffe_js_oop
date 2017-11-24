@@ -19,28 +19,40 @@ define("project/alertComponent", function(require, exports, module) {
             // 创建右上角关闭按钮
             this.alertClose = document.createElement('div');
             this.alertCloseStyle = data.closeOpts;
-
-            // 弹窗标题容器
+            // 创建弹窗标题容器
             this.title = document.createElement('div');
             this.title.innerHTML = data.titleOpts.content;
             this.titleStyle = data.titleOpts.titleStyle;
-
-            // 创建按钮组
+            // 创建确定按钮
             this.confirmBtn = document.createElement('button');
-
+            this.confirmBtn.innerHTML = data.confirmOpts.content;
+            this.confirmBtnStyle = data.confirmOpts.confirmStyle;
+            // 创建取消按钮
+            this.cancelBtn = document.createElement('button');
+            this.cancelBtn.innerHTML = data.cancelOpts.content;
+            this.cancelBtnStyle = data.cancelOpts.cancelStyle;
             // handler 关闭按钮时候执行的回调函数
-            this.closeFun = data.closeFun || function () {}
+            this.closeFun = data.closeFun || function () {};
+            this.confirmFun = data.confirmFun || function () {};
+            this.cancelFun = data.cancelFun || function () {}
         };
 
         Alert.prototype = {
             init : function () {
                 // 组装DOM结构
+                // 在容器中放入遮罩层
                 this.container.appendChild(this.mask);
+                // 在容器中放入面板
                 this.container.appendChild(this.panel);
                 // 在面板中放入弹窗关闭按钮
                 this.panel.appendChild(this.alertClose);
                 // 在面板中放入标题容器
                 this.panel.appendChild(this.title);
+                // 在面板中放入确定按钮
+                this.panel.appendChild(this.confirmBtn);
+                // 在面板中放入取消按钮
+                this.panel.appendChild(this.cancelBtn);
+                // 在body中放入组装好的弹窗
                 document.getElementsByTagName('body')[0].appendChild(this.container);
 
                 // 配置项中的静态属性赋值
@@ -48,6 +60,8 @@ define("project/alertComponent", function(require, exports, module) {
                 this.panel.style = this.splitStyle(this.panelStyle);
                 this.alertClose.style = this.splitStyle(this.alertCloseStyle);
                 this.title.style = this.splitStyle(this.titleStyle);
+                this.confirmBtn.style = this.splitStyle(this.confirmBtnStyle);
+                this.cancelBtn.style = this.splitStyle(this.cancelBtnStyle);
                 // 动态属性赋值
                 this.setStyle();
                 // 事件绑定
@@ -63,7 +77,17 @@ define("project/alertComponent", function(require, exports, module) {
                 this.addEvent(this.alertClose,'click',function () {
                     document.getElementsByTagName('body')[0].removeChild(This.container);
                     This.closeFun()
-                })
+                });
+                // 点击确定按钮执行的回调函数
+                this.addEvent(this.confirmBtn,'click',function () {
+                    document.getElementsByTagName('body')[0].removeChild(This.container);
+                    This.confirmFun()
+                });
+                // 点击取消按钮执行的回调函数
+                this.addEvent(this.cancelBtn,'click',function () {
+                    document.getElementsByTagName('body')[0].removeChild(This.container);
+                    This.cancelFun()
+                });
             },
             // 事件代理
             addEvent : function (obj,type,handle){
@@ -101,6 +125,8 @@ define("project/alertComponent", function(require, exports, module) {
                 return document.documentElement.clientHeight || document.body.clientHeight;
             }
         };
+
+        // 实例化弹窗类时候的参数配置
         var alertObj = new Alert({
             maskOpts : {
                 'background' : '#000',
@@ -120,7 +146,7 @@ define("project/alertComponent", function(require, exports, module) {
                 'position' : 'absolute',
                 'width' : '40px',
                 'height' : '40px',
-                'background' : 'red',
+                'background' : '#626262',
                 'right' : '-25px',
                 'top' : '-25px',
                 'border-radius' : '50px'
@@ -133,13 +159,49 @@ define("project/alertComponent", function(require, exports, module) {
                 },
                 'content' : '弹窗标题'
             },
+            confirmOpts : {
+                'confirmStyle' : {
+                    'position' : 'absolute',
+                    'right' : '120px',
+                    'bottom' : '20px',
+                    'background' : '#f22b47',
+                    'border' : 'none',
+                    'color' : '#fff',
+                    'width' : '80px',
+                    'height' : '30px'
+                },
+                'content' : '确定啦'
+            },
+            cancelOpts : {
+                'cancelStyle' : {
+                    'position' : 'absolute',
+                    'right' : '20px',
+                    'bottom' : '20px',
+                    'background' : 'gray',
+                    'border' : 'none',
+                    'color' : '#fff',
+                    'width' : '80px',
+                    'height' : '30px'
+                },
+                'content' : '取消啦'
+            },
             closeFun : function () {
                 setTimeout(function () {
                     alert('关闭成功之后的回调函数')
-                },1000)
+                },500)
+            },
+            confirmFun : function () {
+                setTimeout(function () {
+                    alert('确定的回调函数')
+                },500)
+            },
+            cancelFun : function () {
+                setTimeout(function () {
+                    alert('取消了取消了')
+                },500)
             }
         });
-        
+        // 实例初始化
         alertObj.init();
     }
 });
