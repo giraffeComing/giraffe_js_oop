@@ -9,14 +9,12 @@ seajs.config({
     }
 });
 seajs.use([
-        'project/jsFileOne',
-        'project/jsFileTwo',
         // PC端页头页脚布局
-        'project/layout'
+        'project/layout',
+        'project/Alert'
     ],
-    function(jsFileOne,jsFileTwo,layout) {
+    function(Alert,layout) {
         // PC端页头页脚布局
         layout();
-        jsFileOne();
-        jsFileTwo();
+        Alert();
     });
